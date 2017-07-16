@@ -1,8 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-
+﻿
 namespace ContosoUniversity.Models
 {
+	using System;
+	using System.Collections.Generic;
 	public class Student
 	{
 		public int ID { get; set; }
@@ -10,5 +10,6 @@ namespace ContosoUniversity.Models
 		public string FirstMidName { get; set; }
 		public DateTime EnrollmentDate { get; set; }
 		public ICollection<Enrollment> Enrollments { get; set; }
+		public string Secret { get; set; }
 	}
 }

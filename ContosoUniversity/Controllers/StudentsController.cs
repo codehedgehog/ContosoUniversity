@@ -1,12 +1,15 @@
-using ContosoUniversity.Data;
-using ContosoUniversity.Models;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Linq;
-using System.Threading.Tasks;
+
 
 namespace ContosoUniversity.Controllers
 {
+
+	using ContosoUniversity.Data;
+	using ContosoUniversity.Models;
+	using Microsoft.AspNetCore.Mvc;
+	using Microsoft.EntityFrameworkCore;
+	using System.Linq;
+	using System.Threading.Tasks;
+
 	public class StudentsController : Controller
 	{
 		private readonly SchoolContext _context;
@@ -51,13 +54,24 @@ namespace ContosoUniversity.Controllers
 		// more details see http://go.microsoft.com/fwlink/?LinkId=317598.
 		[HttpPost]
 		[ValidateAntiForgeryToken]
-		public async Task<IActionResult> Create([Bind("ID,LastName,FirstMidName,EnrollmentDate")] Student student)
+		public async Task<IActionResult> Create([Bind("LastName,FirstMidName,EnrollmentDate")] Student student)
 		{
-			if (ModelState.IsValid)
+			try
 			{
-				_context.Add(student);
-				await _context.SaveChangesAsync();
-				return RedirectToAction("Index");
+				if (ModelState.IsValid)
+				{
+					_context.Add(student);
+					await _context.SaveChangesAsync();
+					return RedirectToAction("Index");
+				}
+			}
+			catch
+			{
+				//Log the error (uncomment ex variable name and write a log.
+				ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
+			}
+			finally
+			{
 			}
 			return View(student);
 		}
