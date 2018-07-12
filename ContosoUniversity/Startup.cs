@@ -26,7 +26,9 @@
 		public void ConfigureServices(IServiceCollection services)
 		{
 			// Add framework services.
-			services.AddDbContext<SchoolContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+			services.AddDbContext<SchoolContext>(
+				options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")),
+				contextLifetime: ServiceLifetime.Scoped);
 
 			services.AddMvc();
 		}
